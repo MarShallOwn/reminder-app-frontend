@@ -1,0 +1,29 @@
+:root {
+    --bg-color: #fff;
+    --headings-color: #000000;
+    --desc-color: #000000;
+    --box-shadow-color: rgba(0,0,0,.2);
+  }
+  
+  body[data-theme="dark-theme"] {
+    --bg-color: #000000;
+    --headings-color: #fff;
+    --desc-color: #fff;
+    --box-shadow-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  body[data-theme="sea-theme"] {
+    --bg-color: #ffe699;
+    --headings-color: #96ceb4;
+    --desc-color: #ff9292;
+    --box-shadow-color: rgba(144, 209, 184, 0.2);
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg-color) !important;
+  }
+
+  h1, li, p {
+    color: var(--headings-color) !important;
+  }
