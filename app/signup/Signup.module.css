@@ -1,0 +1,8 @@
+.container {
+
+}
+
+.container h1 {
+    color: var(--onbg-color);
+    text-align: center;
+}
