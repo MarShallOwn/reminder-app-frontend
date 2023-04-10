@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    box-shadow: var(--dp1-elevation);
+    background-color: var(--surface-color);
+}
+
+.logo {
+    text-decoration: none;
+    color: var(--onsurface-color);
+}
+
+.link {
+    text-decoration: none;
+}
+
+.container ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container li {
+    list-style: none;
+    margin: 0 10px;
+    cursor: pointer;
+    color: var(--onsurface-color);
+}
+
+.themeBtn {
+    cursor: pointer;
+}
+
+.activeThemeBtn {
+    opacity: 0.5;
+}
+
+.selectField {
+    background-color: var(--surface-color);
+    color: var(--onsurface-color);
+    border-radius: 5px;
+    padding: 5px 10px;
+}
