@@ -4,6 +4,7 @@ import { loginAction } from "@/app/redux/actions/authActions";
 import { AppDispatch } from "@/app/redux/store";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
+import classes from "../../styles/authForm.module.css"
 
 
 const LoginForm = () => {
@@ -22,10 +23,18 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <input value={email} onChange={handleEmailChange} type="text" />
-      <input value={password} onChange={handlePasswordChange} type="text" />
-      <button type="submit">Submit</button>
+    <form className={`dp01 ${classes.container}`} onSubmit={handleFormSubmit}>
+      <div className={classes.textFieldContainer}>
+        <label>Email:</label>
+        <input className={`dp01 ${classes.textField}`} value={email} onChange={handleEmailChange} type="text" />
+      </div>
+
+      <div className={classes.textFieldContainer}>
+        <label>Password:</label>
+        <input className={`dp01 ${classes.textField}`} value={password} onChange={handlePasswordChange} type="password" />
+      </div>
+
+      <button className={`dp02 ${classes.submitBtn}`} type="submit">Submit</button>
     </form>
   );
 };

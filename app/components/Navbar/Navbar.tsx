@@ -5,6 +5,19 @@ import classes from "./Navbar.module.css";
 import useTheme from "../../hooks/useTheme";
 import Link from "next/link";
 
+const links = [{
+  label: "Home",
+  href: "/"
+},
+{
+  label: "Login",
+  href: "/login"
+},
+{
+  label: "Signup",
+  href: "/signup"
+}]
+
 const Navbar = () => {
   const { themes, activeTheme, handleActiveTheme } = useTheme();
 
@@ -13,20 +26,20 @@ const Navbar = () => {
   }
 
   return (
-    <nav className={classes.container}>
+    <nav className={`dp01 ${classes.container}`}>
       <h1 className={classes.logo}><Link className={classes.link} href="/">Logo</Link></h1>
       <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Admin</li>
+        {
+          links.map((link, index) => <Link key={index} className={classes.link} href={link.href}><li>{link.label}</li></Link>)
+        }
       </ul>
       <div>
-        <select className={classes.selectField} onChange={handleSelectChange}>
+        <select className={`dp01 ${classes.selectField}`} onChange={handleSelectChange}>
           {themes.map((theme, index) => (
             <option
             value={theme.value}
               key={`${theme.value}=${index}`}
-              className={`${classes.themeBtn} ${
+              className={`dp01 ${classes.themeBtn} ${
                 theme.value === activeTheme && classes.activeThemeBtn
               }`}
             >
