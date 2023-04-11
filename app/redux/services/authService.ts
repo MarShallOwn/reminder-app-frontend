@@ -7,6 +7,9 @@ const login = async (email: string, password: string) => {
         console.log("Login: ", {email, password})
         const res = await fetch(getAPIURL("/auth/signin"), {
             method: "POST",
+            headers: {
+                'Content-Type':'application/json'
+              },
             body: JSON.stringify({email, password})
         })
         console.log("Login: ", {email, password})

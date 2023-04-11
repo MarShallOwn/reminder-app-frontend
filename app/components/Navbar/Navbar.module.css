@@ -3,8 +3,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    box-shadow: var(--dp1-elevation);
-    background-color: var(--surface-color);
 }
 
 .logo {
@@ -30,6 +28,7 @@
 
 .themeBtn {
     cursor: pointer;
+    background-color: var(--surface-color) !important;
 }
 
 .activeThemeBtn {
@@ -37,7 +36,6 @@
 }
 
 .selectField {
-    background-color: var(--surface-color);
     color: var(--onsurface-color);
     border-radius: 5px;
     padding: 5px 10px;
