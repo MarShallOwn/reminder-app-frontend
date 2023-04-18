@@ -1,0 +1,15 @@
+.container {
+  height: 100%;
+  width: 95%;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+.container h2 {
+  margin: 0;
+  color: var(--onsurface-color);
+}
+
+.container label {
+  color: var(--onsurface-color);
+}

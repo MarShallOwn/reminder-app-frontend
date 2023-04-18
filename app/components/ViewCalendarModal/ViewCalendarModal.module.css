@@ -1,0 +1,19 @@
+.container {
+  height: 100%;
+  width: 95%;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+.container h3 {
+  color: var(--onsurface-color);
+}
+
+.container h3[name="label"] {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.container div[name="event-attr"] {
+    display: flex;
+}

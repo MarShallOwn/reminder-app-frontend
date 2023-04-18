@@ -1,5 +1,6 @@
 import { getLocalePartsFrom, locales } from "@/middleware";
 import Navbar from "./components/Navbar/Navbar";
+import "react-big-calendar/lib/css/react-big-calendar.css"
 import "./globals.css";
 
 export const metadata = {

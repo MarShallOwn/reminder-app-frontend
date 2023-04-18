@@ -1,0 +1,48 @@
+.modalContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  background-color: var(--bg-color);
+  border: 2px solid #000;
+
+  border: none;
+  border-radius: 5px;
+}
+
+.modalContainer h2 {
+  margin: 0;
+  color: var(--onsurface-color);
+}
+
+.modalContainer label {
+  color: var(--onsurface-color);
+}
+
+.container {
+  height: 100%;
+  width: 95%;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+.calendarContainer {
+    height: 100vh;
+    padding: 30px;
+}
+
+.currentDate { 
+  background-color: lightgreen !important;
+}
+
+.calendarEvent { 
+  height: 100%;
+  width: 100%;
+  display: flex;
+  padding: 0 10px;
+  border-radius: 5px;
+  flex-direction: column;
+ }

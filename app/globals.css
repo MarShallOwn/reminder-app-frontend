@@ -36,6 +36,10 @@
     background: var(--bg-color) !important;
   }
 
+  .rbc-event {
+    background-color: transparent !important;
+  }
+
   .dp01 {
     background-color: hsla(0, 100%, 100%, 0.05);
     box-shadow:

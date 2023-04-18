@@ -14,3 +14,11 @@
     background-color: var(--primary-color);
     color: var(--onprimary-color);
 }
+
+.calendarContainer {
+    margin: 30px;
+}
+
+.calendarContainer > * {
+    color: var(--onsurface-color) !important;
+}
