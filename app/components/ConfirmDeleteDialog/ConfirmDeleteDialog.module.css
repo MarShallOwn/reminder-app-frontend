@@ -1,0 +1,22 @@
+.dialogContainer {
+  background-color: var(--surface-color) !important;
+}
+
+.dialogTitle {
+    font-weight: bold;
+  color: var(--error-color) !important;
+}
+
+.dialogBody {
+  color: var(--onsurface-color) !important;
+}
+
+.dialogBtn {
+    font-weight: bold;
+  color: var(--onsurface-color) !important;
+}
+
+.diaglogDeleteBtn {
+    font-weight: bold;
+    color: var(--error-color) !important;
+}

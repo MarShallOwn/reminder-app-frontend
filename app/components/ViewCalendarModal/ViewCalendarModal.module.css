@@ -17,3 +17,13 @@
 .container div[name="event-attr"] {
     display: flex;
 }
+
+.controlBtnContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.controlBtn {
+  font-weight: bold !important;
+  color: var(--onsurface-color) !important
+}

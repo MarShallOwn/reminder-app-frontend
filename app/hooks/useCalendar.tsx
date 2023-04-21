@@ -2,12 +2,13 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { priority } from "../constants/priority";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
+import { addEventAction, updateEventAction } from "../redux/actions/eventActions";
 
 type Props = {
   selectedEvent: any;
   handleModalDisplay: (display: boolean, type: string | null) => () => void;
-  handleInsertEvent: (event: any) => void;
-  handleUpdateEvent: (updatedEvent: NewEvent) => void
 };
 
 type NewEvent = {
@@ -40,9 +41,8 @@ const initalNewEvent = {
 const useCalendar = ({
   selectedEvent,
   handleModalDisplay,
-  handleInsertEvent,
-  handleUpdateEvent
 }: Props): ReturnType => {
+  const dispatch = useDispatch<AppDispatch>()
   const [newEvent, setNewEvent] = useState<NewEvent>(
     selectedEvent ? selectedEvent : initalNewEvent
   );
@@ -75,10 +75,10 @@ const useCalendar = ({
 
   const handleAddEvent = () => {
     if(newEvent.id) {
-      handleUpdateEvent(newEvent)
+      dispatch(updateEventAction(newEvent));
     }else {
       const newEventReturn = { ...newEvent, id: uuidv4() };
-      handleInsertEvent(newEventReturn);
+      dispatch(addEventAction(newEventReturn));
     }
     setNewEvent(initalNewEvent);
     handleModalDisplay(false, null)();

@@ -2,6 +2,7 @@
 import React, { ChangeEvent } from "react";
 import classes from "./CalendarForm.module.css";
 import { priority } from "@/app/constants/priority";
+import { Button } from "@mui/material";
 
 type Props = {
   newEvent: any;
@@ -20,7 +21,7 @@ const CalendarForm = ({
 }: Props) => {
   return (
     <div className={classes.container}>
-      <h2>Create Event</h2>
+      <h2>{newEvent?.id ? "Update" : "Create"} Event</h2>
       <div>
         <label htmlFor="title">Title</label>
         <input
@@ -63,8 +64,17 @@ const CalendarForm = ({
         </select>
       </div>
 
-      <button onClick={handleModalDisplay(false, null)}>Cancel</button>
-      <button onClick={handleAddEvent}>Add Event</button>
+      <div className={classes.controlBtnContainer}>
+        <Button
+          className={classes.controlBtn}
+          onClick={handleModalDisplay(false, null)}
+        >
+          Cancel
+        </Button>
+        <Button className={classes.controlBtn} onClick={handleAddEvent}>
+          {newEvent?.id ? "Update" : "Add"} Event
+        </Button>
+      </div>
     </div>
   );
 };

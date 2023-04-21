@@ -7,9 +7,33 @@
 
 .container h2 {
   margin: 0;
+  text-align: center;
   color: var(--onsurface-color);
 }
 
 .container label {
+  font-size: 20px;
   color: var(--onsurface-color);
+}
+
+.container > div {
+  margin: 30px 0;
+}
+
+.container input, .container select {
+  height: 25px;
+  padding-left: 7px;
+  border: none;
+  margin-left: 10px;
+  border-radius: 5px;
+}
+
+.controlBtnContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.controlBtn {
+  font-weight: bold !important;
+  color: var(--onsurface-color) !important
 }

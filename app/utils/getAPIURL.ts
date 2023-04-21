@@ -1,3 +1,3 @@
-const getAPIURL = (endpoint: string) : string => `${process.env.NEXT_API_URL ? process.env.NEXT_API_URL : "http://localhost:8000"}${endpoint}`
+const getAPIURL = (endpoint: string) : string => `${process.env.NEXT_API_URL}${endpoint}`
 
 export default getAPIURL

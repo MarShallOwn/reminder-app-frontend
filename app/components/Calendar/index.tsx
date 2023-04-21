@@ -16,6 +16,14 @@ import "react-big-calendar/lib/addons/dragAndDrop/styles.scss";
 import { priority } from "@/app/constants/priority";
 import ViewCalendarModal from "../ViewCalendarModal";
 import CalendarForm from "../CalendarForm";
+import { AppDispatch } from "@/app/redux/store";
+import {
+  moveEventAction,
+  resizeEventAction,
+} from "@/app/redux/actions/eventActions";
+import { useDispatch, useSelector } from "react-redux";
+import { isToday } from "@/app/utils/isToday";
+import { PriorityColor, priorityColor } from "@/app/constants/priorityColor";
 
 //moment.locale("ar-SA")
 
@@ -35,35 +43,15 @@ type CalendarEvent = {
   tooltip?: string;
 };
 
-type PriorityColor = {
-  low: string;
-  medium: string;
-  high: string;
-  urgent: string;
-};
-
-const priorityColor: PriorityColor = {
-  low: "#008000",
-  medium: "#D1D100",
-  high: "#FFB266",
-  urgent: "#FF0000",
-};
-
 const Calendar = () => {
   const [modalDisplay, setModalDisplay] = useState<{
     open: boolean;
     type: string | null;
   }>({ open: false, type: null });
-  const [events, setEvents] = useState<CalendarEvent[]>([
-    {
-      id: uuidv4(),
-      start: moment().toDate(),
-      end: moment().add(1, "hours").toDate(),
-      title: "test",
-      priority: priority.LOW,
-      description: "Testing description",
-    },
-  ]);
+  const events = useSelector((state) => state.eventsReducer);
+  const dispatch = useDispatch<AppDispatch>();
+
+  console.log(events);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   const handleSelectedEventId = (id: string | null) => setSelectedEventId(id);
@@ -72,18 +60,6 @@ const Calendar = () => {
     setModalDisplay({ open: display, type });
   };
 
-  const handleInsertEvent = (event: CalendarEvent) => {
-    setEvents((prevState) => [...prevState, event]);
-  };
-
-  const handleUpdateEvent = (updatedEvent: CalendarEvent) => {
-    setEvents(prevState => prevState.map((event) => {
-      if(event.id !== updatedEvent.id) return event;
-
-      return updatedEvent;
-    }))
-  }
-
   const selectedEvent = useMemo(
     () => events.find((event) => event.id === selectedEventId),
     [selectedEventId, events]
@@ -91,13 +67,13 @@ const Calendar = () => {
 
   useEffect(() => {
     if (modalDisplay.open === false) {
-      console.log(selectedEvent)
+      console.log(selectedEvent);
       handleSelectedEventId(null);
     }
   }, [modalDisplay.open]);
 
   const { newEvent, handleNewEvent, handleSelectSlot, handleAddEvent } =
-    useCalendar({ selectedEvent, handleModalDisplay, handleInsertEvent, handleUpdateEvent });
+    useCalendar({ selectedEvent, handleModalDisplay });
 
   const moveEvent = useCallback(
     ({
@@ -115,13 +91,9 @@ const Calendar = () => {
         event.allDay = true;
       }
 
-      setEvents((prev) => {
-        const existing = prev.find((ev) => ev.id === event.id) ?? {};
-        const filtered = prev.filter((ev) => ev.id !== event.id);
-        return [...filtered, { ...existing, start, end, allDay }];
-      });
+      dispatch(moveEventAction({ event, start, end, allDay }));
     },
-    [setEvents]
+    [dispatch]
   );
 
   const resizeEvent = useCallback(
@@ -134,18 +106,42 @@ const Calendar = () => {
       start: Date;
       end: Date;
     }) => {
-      setEvents((prev) => {
-        const existing = prev.find((ev) => ev.id === event.id) ?? {};
-        const filtered = prev.filter((ev) => ev.id !== event.id);
-        return [...filtered, { ...existing, start, end }];
-      });
+      dispatch(resizeEventAction({ event, start, end }));
     },
-    [setEvents]
+    [dispatch]
   );
 
   const handleSelectEvent = (event: CalendarEvent) => {
     handleModalDisplay(true, "view")();
     handleSelectedEventId(event.id);
+  };
+
+  const calendarComp = {
+    event: ({ event }: { event: CalendarEvent }) => {
+      return (
+        <span
+          className={classes.calendarEvent}
+          style={{
+            backgroundColor:
+              priorityColor[event.priority as keyof PriorityColor],
+          }}
+        >
+          <em>{event.title}</em>
+        </span>
+      );
+    },
+  };
+
+  const datePropHandler = (date) => {
+    if (isToday(date))
+      return {
+        className: `${classes.currentDate}`,
+      };
+    else if (date.getTime() - new Date().getTime() < 0) {
+      return {
+        className: `${classes.pastDate}`,
+      };
+    } else return {};
   };
 
   return (
@@ -180,28 +176,8 @@ const Calendar = () => {
         onEventDrop={moveEvent}
         onEventResize={resizeEvent}
         views={[Views.MONTH]}
-        components={{
-          event: ({ event }: { event: CalendarEvent }) => {
-            return (
-              <span
-                className={classes.calendarEvent}
-                style={{
-                  backgroundColor:
-                    priorityColor[event.priority as keyof PriorityColor],
-                }}
-              >
-                <em>{event.title}</em>
-              </span>
-            );
-          },
-        }}
-        dayPropGetter={(date) =>
-          date.getDate() === new Date().getDate()
-            ? {
-                className: `${classes.currentDate}`,
-              }
-            : {}
-        }
+        components={calendarComp}
+        dayPropGetter={datePropHandler}
         popup
         resizable
       />
