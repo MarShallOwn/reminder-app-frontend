@@ -66,11 +66,11 @@ const ViewCalendarModal = ({ event, handleModalDisplay }: Props) => {
       </div>
       <div name="event-attr">
         <h3 name="label">Start Date: </h3>
-        <h3>{event?.start.toLocaleDateString()}</h3>
+        <h3>{event?.start.toLocaleString()}</h3>
       </div>
       <div name="event-attr">
         <h3 name="label">End Date: </h3>
-        <h3>{event?.end.toLocaleDateString()}</h3>
+        <h3>{event?.end.toLocaleString()}</h3>
       </div>
 
       <div className={classes.controlBtnContainer}>

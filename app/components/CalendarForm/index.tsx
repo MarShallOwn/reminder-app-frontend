@@ -1,8 +1,9 @@
 "use client";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useMemo } from "react";
 import classes from "./CalendarForm.module.css";
 import { priority } from "@/app/constants/priority";
 import { Button } from "@mui/material";
+import moment from "moment"
 
 type Props = {
   newEvent: any;
@@ -19,6 +20,10 @@ const CalendarForm = ({
   handleModalDisplay,
   handleAddEvent,
 }: Props) => {
+
+  const endDate = useMemo(() => moment(newEvent.end).format("YYYY-MM-DDTHH:mm"), [newEvent.end])
+  const minDate = useMemo(() => moment(newEvent.start).format("YYYY-MM-DDTHH:mm"), [newEvent.start])
+
   return (
     <div className={classes.container}>
       <h2>{newEvent?.id ? "Update" : "Create"} Event</h2>
@@ -44,9 +49,9 @@ const CalendarForm = ({
         <label htmlFor="end-date">End Date</label>
         <input
           id="end-date"
-          value={newEvent.end.toISOString().slice(0, 16)}
+          value={endDate}
           onChange={handleNewEvent("end")}
-          min={newEvent.end.toISOString().slice(0, 16)}
+          min={minDate}
           type="datetime-local"
         />
       </div>

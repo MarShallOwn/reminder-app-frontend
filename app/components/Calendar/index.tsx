@@ -51,7 +51,6 @@ const Calendar = () => {
   const events = useSelector((state) => state.eventsReducer);
   const dispatch = useDispatch<AppDispatch>();
 
-  console.log(events);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   const handleSelectedEventId = (id: string | null) => setSelectedEventId(id);
@@ -175,7 +174,7 @@ const Calendar = () => {
         onSelectSlot={handleSelectSlot}
         onEventDrop={moveEvent}
         onEventResize={resizeEvent}
-        views={[Views.MONTH]}
+        views={[Views.MONTH, Views.AGENDA]}
         components={calendarComp}
         dayPropGetter={datePropHandler}
         popup

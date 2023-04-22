@@ -50,7 +50,7 @@ export const deleteEventAction = createAsyncThunk(
     try {
       const response = await deleteEventAPI(eventId);
 
-      return thunkAPI.fulfillWithValue(eventId);
+      return thunkAPI.fulfillWithValue({id: eventId});
     } catch (err) {
       if (err instanceof Error) {
         console.log(err);

@@ -54,10 +54,13 @@ const useCalendar = ({
   const handleNewEvent =
     (attr: string) =>
     (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const value =
-        attr === "start" || attr === "end"
-          ? new Date(e.target?.value)
-          : e.target?.value;
+      let value: string | Date = e.target.value;
+      if(attr === "start" || attr === "end") {
+        if(!e.target?.value) return;
+
+        value = new Date(e.target?.value);
+      }
+
       setNewEvent((prevState) => ({
         ...prevState,
         [attr]: value,
@@ -65,15 +68,19 @@ const useCalendar = ({
     };
 
   const handleSelectSlot = (props: any) => {
+    const oneHour = 1 * 60 * 60 * 1000;
+    const endDate = new Date(props.start.getTime() + oneHour);
     setNewEvent((prevState) => ({
       ...prevState,
       start: props.start,
-      end: props.end,
+      end: endDate,
     }));
     handleModalDisplay(true, "form")();
   };
 
   const handleAddEvent = () => {
+    if(!newEvent.title.trim()) return;
+
     if(newEvent.id) {
       dispatch(updateEventAction(newEvent));
     }else {
