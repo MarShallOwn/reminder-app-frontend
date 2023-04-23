@@ -2,16 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addEventAction,
   deleteEventAction,
+  getAllEventsAction,
   moveEventAction,
   resizeEventAction,
   updateEventAction,
 } from "../actions/eventActions";
-import { v4 as uuidv4 } from "uuid";
-import moment from "moment";
-import { priority } from "@/app/constants/priority";
 
 export type EventType = {
-  id: string;
+  _id: string;
   start: Date;
   end: Date;
   title: string;
@@ -21,14 +19,6 @@ export type EventType = {
 };
 
 const initialState: EventType[] = [
-  {
-    id: uuidv4(),
-    start: moment().toDate(),
-    end: moment().add(1, "hours").toDate(),
-    title: "test",
-    priority: priority.LOW,
-    description: "Testing description",
-  },
 ];
 
 const eventsSlice = createSlice({
@@ -38,12 +28,12 @@ const eventsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addEventAction.fulfilled, (state, action) => {
-        console.log("Testing: ", action.payload)
+
         state.push(action.payload);
       })
       .addCase(updateEventAction.fulfilled, (state, action) => {
 
-        const index = state.findIndex(event => event.id === action.payload.id);
+        const index = state.findIndex(event => event._id === action.payload._id);
 
         if(index !== -1) {
           state[index] = action.payload
@@ -51,28 +41,32 @@ const eventsSlice = createSlice({
       })
       .addCase(deleteEventAction.fulfilled, (state, action) => {
         const newEvents = state.filter(
-          (event) => event.id !== action.payload.id
+          (event) => event._id !== action.payload?.id
         );
 
         return newEvents;
       })
-      .addCase(moveEventAction, (state, action) => {
-        const { event, start, end, allDay } = action.payload;
-        const existing = state.find((ev) => ev.id === event.id);
+      .addCase(getAllEventsAction.fulfilled, (_, action) => {
+        return action.payload;
+      })
+      .addCase(moveEventAction.fulfilled, (state, action) => {
+        const { eventId, start, end, allDay } = action.payload;
+        const existing = state.find((event) => event._id === eventId);
         if (existing) {
           existing.start = start;
           existing.end = end;
           existing.allDay = allDay;
         }
       })
-      .addCase(resizeEventAction, (state, action) => {
-        const { event, start, end } = action.payload;
-        const existing = state.find((ev) => ev.id === event.id);
+      .addCase(resizeEventAction.fulfilled, (state, action) => {
+        const { eventId, start, end } = action.payload;
+        const existing = state.find((event) => event._id === eventId);
         if (existing) {
           existing.start = start;
           existing.end = end;
         }
-      });
+      })
+      .addDefaultCase((state, action) => {})
   },
 });
 
