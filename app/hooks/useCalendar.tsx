@@ -1,6 +1,5 @@
 "use client";
 import { ChangeEvent, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { priority } from "../constants/priority";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
@@ -12,7 +11,7 @@ type Props = {
 };
 
 type NewEvent = {
-  id: string;
+  _id?: string;
   title: string;
   description: string;
   start: Date;
@@ -30,7 +29,6 @@ type ReturnType = {
 };
 
 const initalNewEvent = {
-  id: "",
   title: "",
   description: "",
   start: new Date(),
@@ -81,11 +79,10 @@ const useCalendar = ({
   const handleAddEvent = () => {
     if(!newEvent.title.trim()) return;
 
-    if(newEvent.id) {
+    if(newEvent._id) {
       dispatch(updateEventAction(newEvent));
     }else {
-      const newEventReturn = { ...newEvent, id: uuidv4() };
-      dispatch(addEventAction(newEventReturn));
+      dispatch(addEventAction(newEvent));
     }
     setNewEvent(initalNewEvent);
     handleModalDisplay(false, null)();

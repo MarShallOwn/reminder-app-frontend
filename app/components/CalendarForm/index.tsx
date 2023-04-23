@@ -26,7 +26,7 @@ const CalendarForm = ({
 
   return (
     <div className={classes.container}>
-      <h2>{newEvent?.id ? "Update" : "Create"} Event</h2>
+      <h2>{newEvent?._id ? "Update" : "Create"} Event</h2>
       <div>
         <label htmlFor="title">Title</label>
         <input
@@ -77,7 +77,7 @@ const CalendarForm = ({
           Cancel
         </Button>
         <Button className={classes.controlBtn} onClick={handleAddEvent}>
-          {newEvent?.id ? "Update" : "Add"} Event
+          {newEvent?._id ? "Update" : "Add"} Event
         </Button>
       </div>
     </div>

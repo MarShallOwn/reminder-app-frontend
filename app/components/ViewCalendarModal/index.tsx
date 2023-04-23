@@ -26,7 +26,7 @@ const ViewCalendarModal = ({ event, handleModalDisplay }: Props) => {
 
   const deleteEvent = () => {
     // delete from database using API
-    dispatch(deleteEventAction(event.id))
+    dispatch(deleteEventAction(event._id))
       .then(() => {
         displayDeleteModal(false)();
         closeViewModal();

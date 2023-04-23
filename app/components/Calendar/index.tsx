@@ -5,7 +5,6 @@ import {
   Views,
   momentLocalizer,
 } from "react-big-calendar";
-import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 import classes from "./Calendar.module.css";
 import { Modal } from "@mui/material";
@@ -13,11 +12,11 @@ import CalendarModal from "../CalendarModal";
 import useCalendar from "@/app/hooks/useCalendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.scss";
-import { priority } from "@/app/constants/priority";
 import ViewCalendarModal from "../ViewCalendarModal";
 import CalendarForm from "../CalendarForm";
-import { AppDispatch } from "@/app/redux/store";
+import { AppDispatch, RootState } from "@/app/redux/store";
 import {
+  getAllEventsAction,
   moveEventAction,
   resizeEventAction,
 } from "@/app/redux/actions/eventActions";
@@ -32,7 +31,7 @@ const localizer = momentLocalizer(moment);
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
 type CalendarEvent = {
-  id: string;
+  _id: string;
   title: string;
   allDay?: boolean;
   start: Date;
@@ -48,8 +47,12 @@ const Calendar = () => {
     open: boolean;
     type: string | null;
   }>({ open: false, type: null });
-  const events = useSelector((state) => state.eventsReducer);
+  const events = useSelector((state: RootState) => state.eventsReducer);
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(getAllEventsAction())
+  }, [])
 
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
@@ -60,13 +63,12 @@ const Calendar = () => {
   };
 
   const selectedEvent = useMemo(
-    () => events.find((event) => event.id === selectedEventId),
+    () => events.find((event) => event._id === selectedEventId),
     [selectedEventId, events]
   );
 
   useEffect(() => {
     if (modalDisplay.open === false) {
-      console.log(selectedEvent);
       handleSelectedEventId(null);
     }
   }, [modalDisplay.open]);
@@ -112,7 +114,7 @@ const Calendar = () => {
 
   const handleSelectEvent = (event: CalendarEvent) => {
     handleModalDisplay(true, "view")();
-    handleSelectedEventId(event.id);
+    handleSelectedEventId(event._id);
   };
 
   const calendarComp = {
@@ -131,7 +133,7 @@ const Calendar = () => {
     },
   };
 
-  const datePropHandler = (date) => {
+  const datePropHandler = (date: Date) => {
     if (isToday(date))
       return {
         className: `${classes.currentDate}`,
@@ -146,6 +148,7 @@ const Calendar = () => {
   return (
     <div className={classes.calendarContainer}>
       <Modal open={modalDisplay.open}>
+        <>
         <CalendarModal>
           {modalDisplay.type === "form" && (
             <CalendarForm
@@ -162,6 +165,7 @@ const Calendar = () => {
             />
           )}
         </CalendarModal>
+        </>
       </Modal>
 
       <DragAndDropCalendar
