@@ -1,9 +1,7 @@
-"use client";
-
-import React, {ChangeEvent} from "react";
+import React from "react";
 import classes from "./Navbar.module.css";
-import useTheme from "../../hooks/useTheme";
 import Link from "next/link";
+import ThemeSelector from "../ThemeSelector";
 
 const links = [{
   label: "Home",
@@ -19,12 +17,6 @@ const links = [{
 }]
 
 const Navbar = () => {
-  const { themes, activeTheme, handleActiveTheme } = useTheme();
-
-  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    handleActiveTheme(e.target.value)
-  }
-
   return (
     <nav className={`dp01 ${classes.container}`}>
       <h1 className={classes.logo}><Link className={classes.link} href="/">Logo</Link></h1>
@@ -34,19 +26,7 @@ const Navbar = () => {
         }
       </ul>
       <div>
-        <select className={`dp01 ${classes.selectField}`} onChange={handleSelectChange}>
-          {themes.map((theme, index) => (
-            <option
-            value={theme.value}
-              key={`${theme.value}=${index}`}
-              className={`dp01 ${classes.themeBtn} ${
-                theme.value === activeTheme && classes.activeThemeBtn
-              }`}
-            >
-              {theme.label}
-            </option>
-          ))}
-        </select>
+        <ThemeSelector />
       </div>
     </nav>
   );

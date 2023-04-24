@@ -25,18 +25,3 @@
     cursor: pointer;
     color: var(--onsurface-color);
 }
-
-.themeBtn {
-    cursor: pointer;
-    background-color: var(--surface-color) !important;
-}
-
-.activeThemeBtn {
-    opacity: 0.5;
-}
-
-.selectField {
-    color: var(--onsurface-color);
-    border-radius: 5px;
-    padding: 5px 10px;
-}

@@ -8,13 +8,14 @@ import ConfirmDeleteDialog from "../ConfirmDeleteDialog";
 import { Button } from "@mui/material";
 import { PriorityColor, priorityColor } from "@/app/constants/priorityColor";
 import { HandleModalDisplayType } from "../Calendar";
+import { CalendarEventWithId } from "@/app/types";
 
-type Props = {
-  event: any;
+type ViewCalendarProps = {
+  event: CalendarEventWithId;
   handleModalDisplay: HandleModalDisplayType;
 };
 
-const ViewCalendarModal = ({ event, handleModalDisplay }: Props) => {
+const ViewCalendarModal = ({ event, handleModalDisplay }: ViewCalendarProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 

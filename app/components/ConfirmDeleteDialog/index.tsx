@@ -30,12 +30,11 @@ const ConfirmDeleteDialog = ({
         PaperProps={{ className: `dp03 ${classes.dialogContainer}` }}
       >
         <DialogTitle className={classes.dialogTitle}>
-          Are you sure you want to delete "{title}"?
+          Are you sure you want to delete {title}?
         </DialogTitle>
         <DialogContent>
           <DialogContentText className={classes.dialogBody}>
-            Do you really want to delete "{title}"? This process can't be
-            undone.
+            Do you really want to delete {title}? {"This process can't be undone."}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

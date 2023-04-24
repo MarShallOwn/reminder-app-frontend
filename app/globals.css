@@ -45,6 +45,14 @@
     font-weight: bold;
   }
 
+  .rbc-btn-group button {
+    color: var(--onsurface-color);
+  }
+
+  body[data-theme="dark-theme"] .rbc-btn-group .rbc-active {
+    color: var(--surface-color);
+  }
+
   .dp01 {
     background-color: hsla(0, 100%, 100%, 0.05);
     box-shadow:

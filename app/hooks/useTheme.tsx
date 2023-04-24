@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
+export type ThemesTypes = "dark" | "light";
 
 type Theme = {
   label: string;
-  value: string;
+  value: ThemesTypes
 };
 
 type ThemeReturnType = {
   themes: Theme[];
   activeTheme: string;
-  handleActiveTheme: (value: string) => void;
+  handleActiveTheme: (value: ThemesTypes) => void;
 };
 
-const useTheme = (): ThemeReturnType => {
-  const [activeTheme, setActiveTheme] = useState<string>("dark");
+const useAppTheme = (): ThemeReturnType => {
+  const [activeTheme, setActiveTheme] = useState<ThemesTypes>("dark");
   const [themes, setThemes] = useState<Theme[]>([
     {
       label: "Dark Theme",
@@ -22,13 +24,9 @@ const useTheme = (): ThemeReturnType => {
       label: "Light Theme",
       value: "light",
     },
-    {
-      label: "Sea Theme",
-      value: "sea",
-    },
   ]);
 
-  const handleActiveTheme = (value: string) => {
+  const handleActiveTheme = (value: ThemesTypes) => {
     if(value === activeTheme) return
     setActiveTheme(value);
     document.body.setAttribute("data-theme", `${value}-theme`);
@@ -37,8 +35,8 @@ const useTheme = (): ThemeReturnType => {
   return {
     themes,
     activeTheme,
-    handleActiveTheme: (value: string) => handleActiveTheme(value),
+    handleActiveTheme: (value) => handleActiveTheme(value),
   };
 };
 
-export default useTheme;
+export default useAppTheme;

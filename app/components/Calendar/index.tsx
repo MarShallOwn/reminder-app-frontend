@@ -11,7 +11,9 @@ import classes from "./Calendar.module.css";
 import { Modal } from "@mui/material";
 import CalendarModal from "../CalendarModal";
 import useCalendar from "@/app/hooks/useCalendar";
-import withDragAndDrop, { EventInteractionArgs } from "react-big-calendar/lib/addons/dragAndDrop";
+import withDragAndDrop, {
+  EventInteractionArgs,
+} from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.scss";
 import ViewCalendarModal from "../ViewCalendarModal";
 import CalendarForm from "../CalendarForm";
@@ -38,10 +40,13 @@ type ActionsEventProps = {
   event: CalendarEventWithId;
   start: Date;
   end: Date;
-  isAllDay?: boolean
-}
+  isAllDay?: boolean;
+};
 
-export type HandleModalDisplayType = (display: boolean, type: "form" | "view" | null) => () => void
+export type HandleModalDisplayType = (
+  display: boolean,
+  type: "form" | "view" | null
+) => () => void;
 
 const Calendar = () => {
   const [modalDisplay, setModalDisplay] = useState<{
@@ -52,19 +57,23 @@ const Calendar = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(getAllEventsAction())
-  }, [])
+    dispatch(getAllEventsAction());
+  }, [dispatch]);
 
   const [selectedEventId, setSelectedEventId] = useState<string | undefined>();
 
-  const handleSelectedEventId = (id: string | undefined) => setSelectedEventId(id);
+  const handleSelectedEventId = (id: string | undefined) =>
+    setSelectedEventId(id);
 
   const handleModalDisplay: HandleModalDisplayType = (display, type) => () => {
     setModalDisplay({ open: display, type });
   };
 
   const selectedEvent: CalendarEventWithId | undefined = useMemo(
-    () => events.find((event) => event._id === selectedEventId) as CalendarEventWithId | undefined,
+    () =>
+      events.find((event) => event._id === selectedEventId) as
+        | CalendarEventWithId
+        | undefined,
     [selectedEventId, events]
   );
 
@@ -95,36 +104,46 @@ const Calendar = () => {
   );
 
   const resizeEvent = useCallback(
-    ({
-      event,
-      start,
-      end,
-    }: ActionsEventProps) => {
+    ({ event, start, end }: ActionsEventProps) => {
       dispatch(resizeEventAction({ event, start, end }));
     },
     [dispatch]
   );
 
-  const handleSelectEvent : (calendarEvent: object, e: React.SyntheticEvent<HTMLElement, Event>) => void = (calendarEvent) => {
+  const handleSelectEvent: (
+    calendarEvent: object,
+    e: React.SyntheticEvent<HTMLElement, Event>
+  ) => void = (calendarEvent) => {
     handleModalDisplay(true, "view")();
     const calEvent = calendarEvent as CalendarEvent;
     handleSelectedEventId(calEvent._id);
   };
 
   const calendarComp = {
-    event: ({ event }: {event: CalendarEvent}) => {
-      return (
+    agenda: {
+      event: ({ event }: { event: CalendarEventWithId }) => (
         <span
-          className={classes.calendarEvent}
+          className={classes.agendaEvent}
           style={{
             backgroundColor:
               priorityColor[event.priority as keyof PriorityColor],
           }}
         >
           <em>{event.title}</em>
+          <p>{event.description}</p>
         </span>
-      );
+      ),
     },
+    event: ({ event }: { event: CalendarEventWithId }) => (
+      <span
+        className={classes.calendarEvent}
+        style={{
+          backgroundColor: priorityColor[event.priority as keyof PriorityColor],
+        }}
+      >
+        <em>{event.title}</em>
+      </span>
+    ),
   };
 
   const datePropHandler = (date: Date) => {
@@ -143,22 +162,22 @@ const Calendar = () => {
     <div className={classes.calendarContainer}>
       <Modal open={modalDisplay.open}>
         <>
-        <CalendarModal>
-          {modalDisplay.type === "form" && (
-            <CalendarForm
-              newEvent={newEvent}
-              handleNewEvent={handleNewEvent}
-              handleAddEvent={handleAddEvent}
-              handleModalDisplay={handleModalDisplay}
-            />
-          )}
-          {modalDisplay.type === "view" && (
-            <ViewCalendarModal
-              handleModalDisplay={handleModalDisplay}
-              event={selectedEvent}
-            />
-          )}
-        </CalendarModal>
+          <CalendarModal>
+            {modalDisplay.type === "form" && (
+              <CalendarForm
+                newEvent={newEvent}
+                handleNewEvent={handleNewEvent}
+                handleAddEvent={handleAddEvent}
+                handleModalDisplay={handleModalDisplay}
+              />
+            )}
+            {modalDisplay.type === "view" && selectedEvent !== undefined && (
+              <ViewCalendarModal
+                handleModalDisplay={handleModalDisplay}
+                event={selectedEvent}
+              />
+            )}
+          </CalendarModal>
         </>
       </Modal>
 
@@ -171,7 +190,9 @@ const Calendar = () => {
         onSelectEvent={handleSelectEvent}
         onSelectSlot={handleSelectSlot}
         onEventDrop={moveEvent as (args: EventInteractionArgs<object>) => void}
-        onEventResize={resizeEvent as (args: EventInteractionArgs<object>) => void}
+        onEventResize={
+          resizeEvent as (args: EventInteractionArgs<object>) => void
+        }
         views={[Views.MONTH, Views.AGENDA]}
         components={calendarComp as Components<object, object>}
         dayPropGetter={datePropHandler}

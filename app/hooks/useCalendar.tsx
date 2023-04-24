@@ -9,6 +9,7 @@ import {
 } from "../redux/actions/eventActions";
 import { CalendarEvent, CalendarEventWithId } from "../types";
 import { HandleModalDisplayType } from "../components/Calendar";
+import { SlotInfo } from "react-big-calendar";
 
 type UseCalendarProps = {
   selectedEvent: CalendarEventWithId | undefined;
@@ -19,10 +20,12 @@ export type HandleNewEventType = (
   attr: keyof CalendarEvent
 ) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 
+export type HandleSelectSlotType = (slotInfo: SlotInfo) => void;
+
 type UseCalendarReturn = {
   newEvent: CalendarEvent | CalendarEventWithId;
   handleNewEvent: HandleNewEventType;
-  handleSelectSlot: (props: any) => void;
+  handleSelectSlot: HandleSelectSlotType;
   handleAddEvent: () => void;
 };
 
@@ -61,7 +64,7 @@ const useCalendar = ({
     }));
   };
 
-  const handleSelectSlot = (props: any) => {
+  const handleSelectSlot: HandleSelectSlotType = (props) => {
     const oneHour = 1 * 60 * 60 * 1000;
     const endDate = new Date(props.start.getTime() + oneHour);
     setNewEvent((prevState) => ({

@@ -6,9 +6,10 @@ import { Button } from "@mui/material";
 import moment from "moment"
 import { HandleNewEventType } from "@/app/hooks/useCalendar";
 import { HandleModalDisplayType } from "../Calendar";
+import { CalendarEvent, CalendarEventWithId } from "@/app/types";
 
-type Props = {
-  newEvent: any;
+type CalendarFormProps = {
+  newEvent: CalendarEvent | CalendarEventWithId;
   handleNewEvent: HandleNewEventType;
   handleModalDisplay: HandleModalDisplayType;
   handleAddEvent: () => void;
@@ -19,7 +20,7 @@ const CalendarForm = ({
   handleNewEvent,
   handleModalDisplay,
   handleAddEvent,
-}: Props) => {
+}: CalendarFormProps) => {
 
   const endDate = useMemo(() => moment(newEvent.end).format("YYYY-MM-DDTHH:mm"), [newEvent.end])
   const minDate = useMemo(() => moment(newEvent.start).format("YYYY-MM-DDTHH:mm"), [newEvent.start])
