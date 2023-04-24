@@ -9,12 +9,12 @@
   color: var(--onsurface-color);
 }
 
-.container h3[name="label"] {
+.container h3[data-name="label"] {
     font-weight: bold;
     margin-right: 10px;
 }
 
-.container div[name="event-attr"] {
+.container div[data-name="event-attr"] {
     display: flex;
 }
 

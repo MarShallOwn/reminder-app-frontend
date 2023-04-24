@@ -4,13 +4,13 @@ import classes from "./CalendarForm.module.css";
 import { priority } from "@/app/constants/priority";
 import { Button } from "@mui/material";
 import moment from "moment"
+import { HandleNewEventType } from "@/app/hooks/useCalendar";
+import { HandleModalDisplayType } from "../Calendar";
 
 type Props = {
   newEvent: any;
-  handleNewEvent: (
-    attr: string
-  ) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
-  handleModalDisplay: (display: boolean, type: string | null) => () => void;
+  handleNewEvent: HandleNewEventType;
+  handleModalDisplay: HandleModalDisplayType;
   handleAddEvent: () => void;
 };
 

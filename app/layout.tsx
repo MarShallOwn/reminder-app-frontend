@@ -1,7 +1,20 @@
+import { Noto_Sans_Arabic, Poppins } from "next/font/google"
 import { getLocalePartsFrom, locales } from "@/middleware";
 import Navbar from "./components/Navbar/Navbar";
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import "./globals.css";
+
+const poppins = Poppins({
+  weight: ['400', '700'],
+  subsets: ["latin"]
+})
+
+/*
+const NotoSansArabic = Noto_Sans_Arabic({
+  weight: ['400', '700'],
+  subsets: ["arabic"]
+})
+*/
 
 export const metadata = {
   title: "Create Next App",
@@ -19,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html dir="ltr">
-      <body data-theme="dark-theme">
+      <body data-theme="dark-theme" className={ poppins.className }>
         <Navbar />
         {children}
       </body>

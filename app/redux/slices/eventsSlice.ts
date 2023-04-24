@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   addEventAction,
   deleteEventAction,
@@ -7,19 +7,11 @@ import {
   resizeEventAction,
   updateEventAction,
 } from "../actions/eventActions";
+import { CalendarEventWithId } from "@/app/types";
 
-export type EventType = {
-  _id: string;
-  start: Date;
-  end: Date;
-  title: string;
-  priority: string;
-  description: string;
-  allDay?: boolean;
-};
+export type EventActionsPayload = {eventId: string, start: Date, end: Date, allDay?: boolean}
 
-const initialState: EventType[] = [
-];
+const initialState: CalendarEventWithId[] = []
 
 const eventsSlice = createSlice({
   name: "events",
@@ -29,9 +21,9 @@ const eventsSlice = createSlice({
     builder
       .addCase(addEventAction.fulfilled, (state, action) => {
 
-        state.push(action.payload);
+        state.push(action.payload as CalendarEventWithId);
       })
-      .addCase(updateEventAction.fulfilled, (state, action) => {
+      .addCase(updateEventAction.fulfilled, (state, action: PayloadAction<CalendarEventWithId>) => {
 
         const index = state.findIndex(event => event._id === action.payload._id);
 
@@ -50,7 +42,7 @@ const eventsSlice = createSlice({
         return action.payload;
       })
       .addCase(moveEventAction.fulfilled, (state, action) => {
-        const { eventId, start, end, allDay } = action.payload;
+        const { eventId, start, end, allDay } = action.payload as EventActionsPayload;
         const existing = state.find((event) => event._id === eventId);
         if (existing) {
           existing.start = start;
@@ -59,7 +51,7 @@ const eventsSlice = createSlice({
         }
       })
       .addCase(resizeEventAction.fulfilled, (state, action) => {
-        const { eventId, start, end } = action.payload;
+        const { eventId, start, end } = action.payload as EventActionsPayload;
         const existing = state.find((event) => event._id === eventId);
         if (existing) {
           existing.start = start;

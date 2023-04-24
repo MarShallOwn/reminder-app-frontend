@@ -1,7 +1,7 @@
-import { EventType } from "../types";
+import { CalendarEvent, CalendarEventWithId } from "../types";
 import { serviceProvider } from "./serviceProvider";
 
-export const addEventAPI = (event: EventType) =>
+export const addEventAPI = (event: CalendarEvent) =>
   serviceProvider("/event", {
     method: "POST",
     headers: {
@@ -11,7 +11,7 @@ export const addEventAPI = (event: EventType) =>
     body: JSON.stringify(event),
   });
 
-export const updateEventAPI = (event: EventType) =>
+export const updateEventAPI = (event: CalendarEventWithId) =>
   serviceProvider("/event", {
     method: "PUT",
     headers: {

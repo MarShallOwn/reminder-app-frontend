@@ -3,32 +3,30 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { priority } from "../constants/priority";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
-import { addEventAction, updateEventAction } from "../redux/actions/eventActions";
+import {
+  addEventAction,
+  updateEventAction,
+} from "../redux/actions/eventActions";
+import { CalendarEvent, CalendarEventWithId } from "../types";
+import { HandleModalDisplayType } from "../components/Calendar";
 
-type Props = {
-  selectedEvent: any;
-  handleModalDisplay: (display: boolean, type: string | null) => () => void;
+type UseCalendarProps = {
+  selectedEvent: CalendarEventWithId | undefined;
+  handleModalDisplay: HandleModalDisplayType;
 };
 
-type NewEvent = {
-  _id?: string;
-  title: string;
-  description: string;
-  start: Date;
-  end: Date;
-  priority: string;
-};
+export type HandleNewEventType = (
+  attr: keyof CalendarEvent
+) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 
-type ReturnType = {
-  newEvent: NewEvent;
-  handleNewEvent: (
-    attr: string
-  ) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+type UseCalendarReturn = {
+  newEvent: CalendarEvent | CalendarEventWithId;
+  handleNewEvent: HandleNewEventType;
   handleSelectSlot: (props: any) => void;
   handleAddEvent: () => void;
 };
 
-const initalNewEvent = {
+const initalNewEvent: CalendarEvent = {
   title: "",
   description: "",
   start: new Date(),
@@ -39,31 +37,29 @@ const initalNewEvent = {
 const useCalendar = ({
   selectedEvent,
   handleModalDisplay,
-}: Props): ReturnType => {
-  const dispatch = useDispatch<AppDispatch>()
-  const [newEvent, setNewEvent] = useState<NewEvent>(
+}: UseCalendarProps): UseCalendarReturn => {
+  const dispatch = useDispatch<AppDispatch>();
+  const [newEvent, setNewEvent] = useState<CalendarEvent | CalendarEventWithId>(
     selectedEvent ? selectedEvent : initalNewEvent
   );
 
   useEffect(() => {
-    setNewEvent(selectedEvent ? selectedEvent : initalNewEvent)
-  }, [selectedEvent])
+    setNewEvent(selectedEvent ? selectedEvent : initalNewEvent);
+  }, [selectedEvent]);
 
-  const handleNewEvent =
-    (attr: string) =>
-    (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      let value: string | Date = e.target.value;
-      if(attr === "start" || attr === "end") {
-        if(!e.target?.value) return;
+  const handleNewEvent: HandleNewEventType = (attr) => (e) => {
+    let value: string | Date = e.target.value;
+    if (attr === "start" || attr === "end") {
+      if (!e.target?.value) return;
 
-        value = new Date(e.target?.value);
-      }
+      value = new Date(e.target?.value);
+    }
 
-      setNewEvent((prevState) => ({
-        ...prevState,
-        [attr]: value,
-      }));
-    };
+    setNewEvent((prevState) => ({
+      ...prevState,
+      [attr]: value,
+    }));
+  };
 
   const handleSelectSlot = (props: any) => {
     const oneHour = 1 * 60 * 60 * 1000;
@@ -77,11 +73,11 @@ const useCalendar = ({
   };
 
   const handleAddEvent = () => {
-    if(!newEvent.title.trim()) return;
+    if (!newEvent.title.trim()) return;
 
-    if(newEvent._id) {
-      dispatch(updateEventAction(newEvent));
-    }else {
+    if (newEvent._id) {
+      dispatch(updateEventAction(newEvent as CalendarEventWithId));
+    } else {
       dispatch(addEventAction(newEvent));
     }
     setNewEvent(initalNewEvent);
@@ -90,34 +86,10 @@ const useCalendar = ({
 
   return {
     newEvent,
-    handleNewEvent:
-      (attr: string) =>
-      (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-        handleNewEvent(attr)(e),
+    handleNewEvent: (attr) => (e) => handleNewEvent(attr)(e),
     handleSelectSlot: (props) => handleSelectSlot(props),
     handleAddEvent: () => handleAddEvent(),
   };
 };
 
 export default useCalendar;
-
-/*
-      const handleSelect = ({ start, end }) => {
-        const title = window.prompt('New Event name')
-
-        if (title) {
-            let newEvent = {} as CalendarEvent;
-            newEvent.start = moment(start).toDate();
-            newEvent.end = moment(end).toDate();
-            newEvent.title = title;
-
-            // Erroneous code
-            // events.push(newEvent)
-            // setEvents(events)
-            setEvents([
-              ...events,
-              newEvent
-            ])
-        }
-      }
-*/

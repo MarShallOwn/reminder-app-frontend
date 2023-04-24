@@ -2,6 +2,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
 import {
   Calendar as BigCalendar,
+  Components,
   Views,
   momentLocalizer,
 } from "react-big-calendar";
@@ -10,7 +11,7 @@ import classes from "./Calendar.module.css";
 import { Modal } from "@mui/material";
 import CalendarModal from "../CalendarModal";
 import useCalendar from "@/app/hooks/useCalendar";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import withDragAndDrop, { EventInteractionArgs } from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.scss";
 import ViewCalendarModal from "../ViewCalendarModal";
 import CalendarForm from "../CalendarForm";
@@ -23,24 +24,24 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { isToday } from "@/app/utils/isToday";
 import { PriorityColor, priorityColor } from "@/app/constants/priorityColor";
+import { CalendarEvent, CalendarEventWithId } from "@/app/types";
 
 //moment.locale("ar-SA")
+
+// AGENDA DISPLAY FIRST DAY IN MONTH TILL FIRST DAY IN LATER MONTH ****************
 
 const localizer = momentLocalizer(moment);
 
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
-type CalendarEvent = {
-  _id: string;
-  title: string;
-  allDay?: boolean;
+type ActionsEventProps = {
+  event: CalendarEventWithId;
   start: Date;
   end: Date;
-  priority: string;
-  description?: string;
-  resourceId?: string;
-  tooltip?: string;
-};
+  isAllDay?: boolean
+}
+
+export type HandleModalDisplayType = (display: boolean, type: "form" | "view" | null) => () => void
 
 const Calendar = () => {
   const [modalDisplay, setModalDisplay] = useState<{
@@ -54,22 +55,22 @@ const Calendar = () => {
     dispatch(getAllEventsAction())
   }, [])
 
-  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | undefined>();
 
-  const handleSelectedEventId = (id: string | null) => setSelectedEventId(id);
+  const handleSelectedEventId = (id: string | undefined) => setSelectedEventId(id);
 
-  const handleModalDisplay = (display: boolean, type: string | null) => () => {
+  const handleModalDisplay: HandleModalDisplayType = (display, type) => () => {
     setModalDisplay({ open: display, type });
   };
 
-  const selectedEvent = useMemo(
-    () => events.find((event) => event._id === selectedEventId),
+  const selectedEvent: CalendarEventWithId | undefined = useMemo(
+    () => events.find((event) => event._id === selectedEventId) as CalendarEventWithId | undefined,
     [selectedEventId, events]
   );
 
   useEffect(() => {
     if (modalDisplay.open === false) {
-      handleSelectedEventId(null);
+      handleSelectedEventId(undefined);
     }
   }, [modalDisplay.open]);
 
@@ -82,11 +83,7 @@ const Calendar = () => {
       start,
       end,
       isAllDay: droppedOnAllDaySlot = false,
-    }: {
-      event: CalendarEvent;
-      start: Date;
-      end: Date;
-    }) => {
+    }: ActionsEventProps) => {
       const { allDay } = event;
       if (!allDay && droppedOnAllDaySlot) {
         event.allDay = true;
@@ -102,23 +99,20 @@ const Calendar = () => {
       event,
       start,
       end,
-    }: {
-      event: CalendarEvent;
-      start: Date;
-      end: Date;
-    }) => {
+    }: ActionsEventProps) => {
       dispatch(resizeEventAction({ event, start, end }));
     },
     [dispatch]
   );
 
-  const handleSelectEvent = (event: CalendarEvent) => {
+  const handleSelectEvent : (calendarEvent: object, e: React.SyntheticEvent<HTMLElement, Event>) => void = (calendarEvent) => {
     handleModalDisplay(true, "view")();
-    handleSelectedEventId(event._id);
+    const calEvent = calendarEvent as CalendarEvent;
+    handleSelectedEventId(calEvent._id);
   };
 
   const calendarComp = {
-    event: ({ event }: { event: CalendarEvent }) => {
+    event: ({ event }: {event: CalendarEvent}) => {
       return (
         <span
           className={classes.calendarEvent}
@@ -176,10 +170,10 @@ const Calendar = () => {
         defaultDate={new Date()}
         onSelectEvent={handleSelectEvent}
         onSelectSlot={handleSelectSlot}
-        onEventDrop={moveEvent}
-        onEventResize={resizeEvent}
+        onEventDrop={moveEvent as (args: EventInteractionArgs<object>) => void}
+        onEventResize={resizeEvent as (args: EventInteractionArgs<object>) => void}
         views={[Views.MONTH, Views.AGENDA]}
-        components={calendarComp}
+        components={calendarComp as Components<object, object>}
         dayPropGetter={datePropHandler}
         popup
         resizable
