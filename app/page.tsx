@@ -1,9 +1,7 @@
 import React from "react";
-import Link from "next/link";
 import classes from "./Home.module.css";
-import moment from "moment";
 import Calendar from "./components/Calendar";
-import Providers from "./components/Provider/Provider";
+import Providers from "./components/Providers";
 
 
 const Home = async () => {
