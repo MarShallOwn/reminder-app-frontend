@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export type ThemesTypes = "dark" | "light";
 
 type Theme = {
   label: string;
-  value: ThemesTypes
+  value: ThemesTypes;
 };
 
 type ThemeReturnType = {
   themes: Theme[];
-  activeTheme: string;
+  activeTheme: ThemesTypes;
   handleActiveTheme: (value: ThemesTypes) => void;
 };
 
+
+
 const useAppTheme = (): ThemeReturnType => {
-  const [activeTheme, setActiveTheme] = useState<ThemesTypes>("dark");
+  const [activeTheme, setActiveTheme] = useState<ThemesTypes>("light");
   const [themes, setThemes] = useState<Theme[]>([
     {
       label: "Dark Theme",
@@ -26,10 +28,19 @@ const useAppTheme = (): ThemeReturnType => {
     },
   ]);
 
+  useEffect(() => {
+    const appTheme = (localStorage.getItem('app-theme') || "light") as ThemesTypes
+    setActiveTheme(appTheme)
+  }, [])
+
+  useEffect(() => {
+    document.body.setAttribute("data-theme", `${activeTheme}-theme`);
+  }, [activeTheme]);
+
   const handleActiveTheme = (value: ThemesTypes) => {
-    if(value === activeTheme) return
+    if (value === activeTheme) return;
     setActiveTheme(value);
-    document.body.setAttribute("data-theme", `${value}-theme`);
+    localStorage.setItem("app-theme", value);
   };
 
   return {
