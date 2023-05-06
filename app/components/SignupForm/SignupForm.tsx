@@ -4,7 +4,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import classes from "../../styles/authForm.module.css";
 import getAPIURL from "@/app/utils/getAPIURL";
 
-type UserType = {
+type UserFormType = {
   firstname: string;
   lastname: string;
   email: string;
@@ -13,7 +13,7 @@ type UserType = {
 };
 
 const SignupForm = () => {
-  const [user, setUser] = useState<UserType>({
+  const [user, setUser] = useState<UserFormType>({
     firstname: "",
     lastname: "",
     email: "",

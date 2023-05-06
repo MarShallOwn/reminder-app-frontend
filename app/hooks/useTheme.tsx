@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-export type ThemesTypes = "dark" | "light";
-
 type Theme = {
   label: string;
   value: ThemesTypes;

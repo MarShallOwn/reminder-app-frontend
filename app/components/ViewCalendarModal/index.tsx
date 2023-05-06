@@ -6,9 +6,7 @@ import { deleteEventAction } from "@/app/redux/actions/eventActions";
 import { AppDispatch } from "@/app/redux/store";
 import ConfirmDeleteDialog from "../ConfirmDeleteDialog";
 import { Button } from "@mui/material";
-import { PriorityColor, priorityColor } from "@/app/constants/priorityColor";
-import { HandleModalDisplayType } from "../Calendar";
-import { CalendarEventWithId } from "@/app/types";
+import { priorityColor } from "@/app/constants/priorityColor";
 
 type ViewCalendarProps = {
   event: CalendarEventWithId;

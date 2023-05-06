@@ -4,7 +4,6 @@ import {
   getAllEventsAPI,
   updateEventAPI,
 } from "@/app/services";
-import { CalendarEvent, CalendarEventWithId } from "@/app/types";
 import { handleAPICatch } from "@/app/utils/handleCatchError";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 

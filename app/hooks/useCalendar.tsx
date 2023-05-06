@@ -7,20 +7,11 @@ import {
   addEventAction,
   updateEventAction,
 } from "../redux/actions/eventActions";
-import { CalendarEvent, CalendarEventWithId } from "../types";
-import { HandleModalDisplayType } from "../components/Calendar";
-import { SlotInfo } from "react-big-calendar";
 
 type UseCalendarProps = {
   selectedEvent: CalendarEventWithId | undefined;
   handleModalDisplay: HandleModalDisplayType;
 };
-
-export type HandleNewEventType = (
-  attr: keyof CalendarEvent
-) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
-
-export type HandleSelectSlotType = (slotInfo: SlotInfo) => void;
 
 type UseCalendarReturn = {
   newEvent: CalendarEvent | CalendarEventWithId;

@@ -1,12 +1,9 @@
 "use client";
-import React, { ChangeEvent, useMemo } from "react";
+import React, { useMemo } from "react";
 import classes from "./CalendarForm.module.css";
 import { priority } from "@/app/constants/priority";
 import { Button } from "@mui/material";
 import moment from "moment"
-import { HandleNewEventType } from "@/app/hooks/useCalendar";
-import { HandleModalDisplayType } from "../Calendar";
-import { CalendarEvent, CalendarEventWithId } from "@/app/types";
 
 type CalendarFormProps = {
   newEvent: CalendarEvent | CalendarEventWithId;

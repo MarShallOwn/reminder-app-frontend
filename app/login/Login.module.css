@@ -1,8 +1,48 @@
-.container {
+.mainContainer {
     margin: 30px 0;
 }
 
-.container h1 {
+.mainContainer h1 {
     color: var(--onbg-color);
     text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.textFieldContainer {
+    width: 100%;
+    margin: 15px 0;
+}
+
+.container label {
+    margin: 0px 0;
+    color: var(--onbg-color);
+}
+
+.textField {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    color: var(--onsurface-color);
+    padding: 10px;
+}
+
+.submitBtn {
+    color: var(--onsurface-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submitBtn:hover {
+    filter: brightness(85%)
 }

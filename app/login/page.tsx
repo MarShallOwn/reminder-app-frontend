@@ -1,19 +1,61 @@
-import React from 'react'
-import classes from "./Login.module.css"
-import LoginForm from '../components/LoginForm'
-import Providers from '../components/Providers'
+"use client"
 
-type Props = {}
+import { loginAction } from "@/app/redux/actions/authActions";
+import { AppDispatch } from "@/app/redux/store";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useDispatch } from "react-redux";
+import classes from "../styles/authForm.module.css"
+import { signIn } from "next-auth/react";
 
-const Login = (props: Props) => {
+type LoginProps = {
+  searchParams : {
+    callbackUrl: string
+  }
+}
+
+const Login = ({searchParams: {callbackUrl}}: LoginProps) => {
+
+  const dispatch = useDispatch<AppDispatch>();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setEmail(e.target.value);
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setPassword(e.target.value);
+
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: email,
+        password: password,
+        callbackUrl,
+      });
+  
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+
+    //dispatch(loginAction({ email, password }));
+  };
+
   return (
-    <div className={classes.container}> 
-      <h1>Login</h1>
+    <form className={`dp01 ${classes.container}`} onSubmit={handleFormSubmit}>
+      <div className={classes.textFieldContainer}>
+        <label>Email:</label>
+        <input className={`dp01 ${classes.textField}`} value={email} onChange={handleEmailChange} type="text" />
+      </div>
 
-      <Providers>
-        <LoginForm />
-      </Providers>
-    </div>
+      <div className={classes.textFieldContainer}>
+        <label>Password:</label>
+        <input className={`dp01 ${classes.textField}`} value={password} onChange={handlePasswordChange} type="password" />
+      </div>
+
+      <button className={`dp02 ${classes.submitBtn}`} type="submit">Submit</button>
+    </form>
   )
 }
 

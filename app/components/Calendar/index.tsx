@@ -25,8 +25,7 @@ import {
 } from "@/app/redux/actions/eventActions";
 import { useDispatch, useSelector } from "react-redux";
 import { isToday } from "@/app/utils/isToday";
-import { PriorityColor, priorityColor } from "@/app/constants/priorityColor";
-import { CalendarEvent, CalendarEventWithId } from "@/app/types";
+import { priorityColor } from "@/app/constants/priorityColor";
 
 //moment.locale("ar-SA")
 
@@ -42,11 +41,6 @@ type ActionsEventProps = {
   end: Date;
   isAllDay?: boolean;
 };
-
-export type HandleModalDisplayType = (
-  display: boolean,
-  type: "form" | "view" | null
-) => () => void;
 
 const Calendar = () => {
   const [modalDisplay, setModalDisplay] = useState<{
@@ -71,7 +65,7 @@ const Calendar = () => {
 
   const selectedEvent: CalendarEventWithId | undefined = useMemo(
     () =>
-      events.find((event) => event._id === selectedEventId) as
+      events.find((event: CalendarEventWithId) => event._id === selectedEventId) as
         | CalendarEventWithId
         | undefined,
     [selectedEventId, events]

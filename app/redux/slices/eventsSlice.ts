@@ -7,9 +7,6 @@ import {
   resizeEventAction,
   updateEventAction,
 } from "../actions/eventActions";
-import { CalendarEventWithId } from "@/app/types";
-
-export type EventActionsPayload = {eventId: string, start: Date, end: Date, allDay?: boolean}
 
 const initialState: CalendarEventWithId[] = []
 
