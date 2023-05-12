@@ -4,7 +4,7 @@ import React from "react";
 import classes from "./Navbar.module.css";
 import Link from "next/link";
 import ThemeSelector from "../ThemeSelector";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
 const links = [{
   label: "Home",
@@ -17,6 +17,9 @@ const links = [{
 {
   label: "Signup",
   href: "/signup"
+},{
+  label: "Profile",
+  href: "/profile"
 }]
 
 const Navbar = () => {
@@ -25,6 +28,7 @@ const Navbar = () => {
       <h1 className={classes.logo}><Link className={classes.link} href="/">Logo</Link></h1>
       <ul>
         <li onClick={() => signIn()}>Next-Auth Signin</li>
+        <li onClick={() => signOut()}>Next-Auth Signout</li>
         {
           links.map((link, index) => <Link key={index} className={classes.link} href={link.href}><li>{link.label}</li></Link>)
         }

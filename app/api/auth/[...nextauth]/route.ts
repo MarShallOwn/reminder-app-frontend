@@ -56,6 +56,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, token }) {
       if(token) {
+        session.error = token.error;
         session.user.id = token.id;
         session.user.firstname = token.firstname;
         session.user.lastname = token.lastname;
@@ -69,6 +70,7 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           ...user,
+          error: undefined
         }
       }
 
@@ -79,20 +81,23 @@ export const authOptions: NextAuthOptions = {
 
       try {
       // if not valid then request another token
-      //const newAccessToken = refresh
       const res = await RefreshAccessTokenAPI({token: token.tokens.refreshToken as string})
 
       const result = await res.json();
 
+      if(result.statusCode === 403) {
+        throw new Error;
+      }
+
       return {
         ...token,
         accessToken: result.data.accessToken,
-        accessTokenExpiry: result.data.accessTokenExpiry
+        accessTokenExpiry: result.data.accessTokenExpiry,
+        error: undefined
       }
       } catch {
         return { ...token, error: "RefreshAccessTokenError" as const }
       }
-
     },
   },
 };

@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar/Navbar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./globals.css";
 import Providers from "./components/Providers";
+import CheckAuthenticated from "./components/CheckAuthenticated";
 
 const poppins = Poppins({
   weight: ["400", "700"],
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html dir="ltr">
       <Providers>
+        <CheckAuthenticated />
         <body data-theme="light-theme" className={poppins.className}>
           <Navbar />
           {children}
