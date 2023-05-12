@@ -26,6 +26,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { isToday } from "@/app/utils/isToday";
 import { priorityColor } from "@/app/constants/priorityColor";
+import { useSession } from "next-auth/react";
 
 //moment.locale("ar-SA")
 
@@ -43,6 +44,10 @@ type ActionsEventProps = {
 };
 
 const Calendar = () => {
+  const { data: session } = useSession();
+
+  console.log(session);
+
   const [modalDisplay, setModalDisplay] = useState<{
     open: boolean;
     type: string | null;

@@ -1,4 +1,3 @@
-import { CalendarEvent, CalendarEventWithId } from "../types";
 import { serviceProvider } from "./serviceProvider";
 
 export const addEventAPI = (event: CalendarEvent) =>
@@ -36,3 +35,19 @@ export const getAllEventsAPI = () =>
       Accept: "application/json",
     },
   });
+
+export const loginAPI = ({email, password}: {email: string, password: string}) => serviceProvider("/auth/signin", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ email, password }),
+})
+
+export const RefreshAccessTokenAPI = ({token}: {token: string}) => serviceProvider("/auth/token", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({token})
+})

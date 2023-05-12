@@ -1,17 +1,13 @@
 import React from "react";
 import classes from "./Home.module.css";
 import Calendar from "./components/Calendar";
-import Providers from "./components/Providers";
-
 
 const Home = async () => {
   return (
     <main className={classes.container}>
       <h1>Welcome To Reminder App</h1>
       <div className={`dp02 ${classes.calendarContainer}`}>
-        <Providers>
-          <Calendar />
-        </Providers>
+        <Calendar />
       </div>
     </main>
   );
