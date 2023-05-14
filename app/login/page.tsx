@@ -25,18 +25,12 @@ const Login = ({ searchParams: { callbackUrl } }: LoginProps) => {
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const res = await signIn("credentials", {
-        redirect: false,
-        email: email,
-        password: password,
-        callbackUrl,
-      });
-
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+    
+    signIn("credentials", {
+      email: email,
+      password: password,
+      callbackUrl,
+    });
 
     //dispatch(loginAction({ email, password }));
   };

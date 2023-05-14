@@ -37,7 +37,6 @@ const SignupForm = () => {
         body: JSON.stringify(user)
       })
 
-      console.log(res);
     } catch (err) {
       if (err instanceof Error) {
         console.log(err);

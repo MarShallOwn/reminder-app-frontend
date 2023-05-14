@@ -9,8 +9,6 @@ type AuthProps = {
 export const loginAction = createAsyncThunk("auth/loginAction", async ({email, password} : AuthProps, thunkAPI) => {
     try {
         const res = await authService.login(email, password);
-
-        console.log(res);
     } catch (err: any) {
         if (err instanceof Error) {
             console.log(err);

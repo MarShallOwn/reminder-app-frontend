@@ -40,15 +40,13 @@ export const authOptions: NextAuthOptions = {
 
           const result = await res.json();
 
-          console.log("data: ", result.response.data);
-
           if (result.response?.data?.tokens?.accessToken) {
             return result.response.data;
           }
 
-          return null;
+          throw new Error("invalid credentials")
         } catch (err: unknown) {
-          throw err;
+          return null;
         }
       },
     }),
@@ -91,11 +89,11 @@ export const authOptions: NextAuthOptions = {
 
       return {
         ...token,
-        accessToken: result.data.accessToken,
-        accessTokenExpiry: result.data.accessTokenExpiry,
+        accessToken: result.response.data.accessToken,
+        accessTokenExpiry: result.response.data.accessTokenExpiry,
         error: undefined
       }
-      } catch {
+      } catch(err) {
         return { ...token, error: "RefreshAccessTokenError" as const }
       }
     },

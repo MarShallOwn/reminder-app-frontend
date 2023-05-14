@@ -46,7 +46,7 @@ type ActionsEventProps = {
 const Calendar = () => {
   const { data: session } = useSession();
 
-  console.log(session);
+  console.log("Calendar Session: ",session);
 
   const [modalDisplay, setModalDisplay] = useState<{
     open: boolean;
