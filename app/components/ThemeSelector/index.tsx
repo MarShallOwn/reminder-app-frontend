@@ -1,7 +1,7 @@
 "use client";
 import React, { ChangeEvent } from "react";
 import classes from "./ThemeSelector.module.css";
-import useAppTheme, { ThemesTypes } from "@/app/hooks/useTheme";
+import useAppTheme from "@/app/hooks/useTheme";
 
 const ThemeSelector = () => {
   const { themes, activeTheme, handleActiveTheme } = useAppTheme();

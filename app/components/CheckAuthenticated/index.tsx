@@ -22,7 +22,7 @@ const CheckAuthenticated = () => {
         router.replace("/");
       }
     }
-  }, [session]);
+  }, [session, pathname, router]);
 
   return null;
 };
