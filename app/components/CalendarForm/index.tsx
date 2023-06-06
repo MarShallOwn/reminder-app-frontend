@@ -24,6 +24,8 @@ const CalendarForm = ({
 
   const endDate = useMemo(() => moment(newEvent.end).format("YYYY-MM-DDTHH:mm"), [newEvent.end])
   const minDate = useMemo(() => moment(newEvent.start).format("YYYY-MM-DDTHH:mm"), [newEvent.start])
+  const notificationDate = useMemo(() => moment(newEvent.notificationDate).format("YYYY-MM-DDTHH:mm"), [newEvent.notificationDate])
+  const currentDate = useMemo(() => moment().format("YYYY-MM-DDTHH:mm"), [])
 
   return (
     <div className={classes.container}>
@@ -32,6 +34,7 @@ const CalendarForm = ({
         <label htmlFor="title">Title</label>
         <input
           id="title"
+          className="dp01"
           value={newEvent.title}
           onChange={handleNewEvent("title")}
           type="text"
@@ -41,6 +44,7 @@ const CalendarForm = ({
         <label htmlFor="description">Description</label>
         <input
           id="description"
+          className="dp01"
           value={newEvent.description}
           onChange={handleNewEvent("description")}
           type="text"
@@ -50,6 +54,7 @@ const CalendarForm = ({
         <label htmlFor="end-date">End Date</label>
         <input
           id="end-date"
+          className="dp01"
           value={endDate}
           onChange={handleNewEvent("end")}
           min={minDate}
@@ -57,16 +62,29 @@ const CalendarForm = ({
         />
       </div>
       <div>
+        <label htmlFor="notify-date">Notification Date</label>
+        <input
+          id="notify-date"
+          className="dp01"
+          value={notificationDate}
+          onChange={handleNewEvent("notificationDate")}
+          min={currentDate}
+          type="datetime-local"
+        />
+      </div>
+      <div>
         <label htmlFor="priority">Priority</label>
         <select
           id="priority"
+          className={`dp01 ${classes.selectField}`}
+
           value={newEvent.priority}
           onChange={handleNewEvent("priority")}
         >
-          <option value={priority.LOW}>Low</option>
-          <option value={priority.MEDIUM}>Medium</option>
-          <option value={priority.HIGH}>High</option>
-          <option value={priority.URGENT}>Urgent</option>
+          <option className={`dp01 ${classes.prioSelector}`} value={priority.LOW}>Low</option>
+          <option className={`dp01 ${classes.prioSelector}`} value={priority.MEDIUM}>Medium</option>
+          <option className={`dp01 ${classes.prioSelector}`} value={priority.HIGH}>High</option>
+          <option className={`dp01 ${classes.prioSelector}`} value={priority.URGENT}>Urgent</option>
         </select>
       </div>
 

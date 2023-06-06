@@ -35,6 +35,7 @@ const initalNewEvent: CalendarEvent = {
   start: new Date(),
   end: new Date(),
   priority: priority.LOW,
+  notificationDate: new Date()
 };
 
 const useCalendar = ({
@@ -65,12 +66,19 @@ const useCalendar = ({
   };
 
   const handleSelectSlot: HandleSelectSlotType = (props) => {
+    const currentDate = new Date();
+    const conditionStartDate = new Date(props.start); // we did this just to allow the creation of event for todays date
+    conditionStartDate.setDate(conditionStartDate.getDate() + 1);
+    if(conditionStartDate.getTime() < currentDate.getTime()) return;
     const oneHour = 1 * 60 * 60 * 1000;
     const endDate = new Date(props.start.getTime() + oneHour);
+    const notificationDate = new Date(props.start);
+    notificationDate.setDate(notificationDate.getDate() - 1);
     setNewEvent((prevState) => ({
       ...prevState,
       start: props.start,
       end: endDate,
+      notificationDate
     }));
     handleModalDisplay(true, "form")();
   };

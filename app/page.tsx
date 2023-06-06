@@ -7,7 +7,6 @@ import Providers from "./components/Providers";
 const Home = async () => {
   return (
     <main className={classes.container}>
-      <h1>Welcome To Reminder App</h1>
       <div className={`dp02 ${classes.calendarContainer}`}>
         <Providers>
           <Calendar />

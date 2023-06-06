@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import classes from "./ViewCalendarModal.module.css";
 
 import { useDispatch } from "react-redux";
@@ -9,6 +9,7 @@ import { Button } from "@mui/material";
 import { PriorityColor, priorityColor } from "@/app/constants/priorityColor";
 import { HandleModalDisplayType } from "../Calendar";
 import { CalendarEventWithId } from "@/app/types";
+import moment from "moment";
 
 type ViewCalendarProps = {
   event: CalendarEventWithId;
@@ -46,6 +47,10 @@ const ViewCalendarModal = ({ event, handleModalDisplay }: ViewCalendarProps) => 
       });
   };
 
+  const startDate = useMemo(() => moment.utc(event?.end).local().format('YYYY-MM-DD HH:mm:ss A'), [event?.end])
+  const endDate = useMemo(() => moment(event?.start).local().format('YYYY-MM-DD HH:mm:ss A'), [event?.start])
+  const notificationDate = useMemo(() => moment(event?.notificationDate).local().format('YYYY-MM-DD HH:mm:ss A'), [event?.notificationDate])
+
   return (
     <div className={classes.container}>
       <ConfirmDeleteDialog
@@ -68,11 +73,16 @@ const ViewCalendarModal = ({ event, handleModalDisplay }: ViewCalendarProps) => 
       </div>
       <div data-name="event-attr">
         <h3 data-name="label">Start Date: </h3>
-        <h3>{event?.start.toLocaleString()}</h3>
+        <h3>{startDate}</h3>
       </div>
       <div data-name="event-attr">
         <h3 data-name="label">End Date: </h3>
-        <h3>{event?.end.toLocaleString()}</h3>
+        <h3>{endDate}</h3>
+      </div>
+
+      <div data-name="event-attr">
+        <h3 data-name="label">Notification Date: </h3>
+        <h3>{notificationDate}</h3>
       </div>
 
       <div className={classes.controlBtnContainer}>

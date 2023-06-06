@@ -12,6 +12,7 @@ export type CalendarEvent = {
     allDay?: boolean;
     resourceId?: string;
     tooltip?: string;
+    notificationDate: Date;
 }
 
 export type CalendarEventWithId = WithRequiredProperty<CalendarEvent, "_id">

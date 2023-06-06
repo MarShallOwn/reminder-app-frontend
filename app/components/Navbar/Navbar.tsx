@@ -19,7 +19,7 @@ const links = [{
 const Navbar = () => {
   return (
     <nav className={`dp01 ${classes.container}`}>
-      <h1 className={classes.logo}><Link className={classes.link} href="/">Logo</Link></h1>
+      <h1 className={classes.logo}><Link className={classes.link} href="/">Reminder App</Link></h1>
       <ul>
         {
           links.map((link, index) => <Link key={index} className={classes.link} href={link.href}><li>{link.label}</li></Link>)

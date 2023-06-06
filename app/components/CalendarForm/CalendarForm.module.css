@@ -26,6 +26,7 @@
   border: none;
   margin-left: 10px;
   border-radius: 5px;
+  color: var(--onsurface-color);
 }
 
 .controlBtnContainer {
@@ -36,4 +37,15 @@
 .controlBtn {
   font-weight: bold !important;
   color: var(--onsurface-color) !important
+}
+
+.prioSelector {
+  cursor: pointer;
+  background-color: var(--surface-color) !important;
+}
+
+.selectField {
+  color: var(--onsurface-color);
+  border-radius: 5px;
+  padding: 5px 10px;
 }

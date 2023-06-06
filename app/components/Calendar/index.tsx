@@ -27,6 +27,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { isToday } from "@/app/utils/isToday";
 import { PriorityColor, priorityColor } from "@/app/constants/priorityColor";
 import { CalendarEvent, CalendarEventWithId } from "@/app/types";
+import NotificationBell from "../../assets/images/animated-notification.svg";
+import notificationBellAudio from "../../assets/sounds/notification-bell.wav";
+import Image from "next/image";
 
 //moment.locale("ar-SA")
 
@@ -56,6 +59,15 @@ const Calendar = () => {
   const events = useSelector((state: RootState) => state.eventsReducer);
   const dispatch = useDispatch<AppDispatch>();
 
+  const currentDate = new Date()
+
+  /*
+  useEffect(() => {
+    const audio = new Audio(notificationBellAudio);
+    audio.play()
+  }, []);
+  */
+
   useEffect(() => {
     dispatch(getAllEventsAction());
   }, [dispatch]);
@@ -72,8 +84,8 @@ const Calendar = () => {
   const selectedEvent: CalendarEventWithId | undefined = useMemo(
     () =>
       events.find((event) => event._id === selectedEventId) as
-        | CalendarEventWithId
-        | undefined,
+      | CalendarEventWithId
+      | undefined,
     [selectedEventId, events]
   );
 
@@ -129,8 +141,14 @@ const Calendar = () => {
               priorityColor[event.priority as keyof PriorityColor],
           }}
         >
+          <div>
           <em>{event.title}</em>
           <p>{event.description}</p>
+          </div>
+
+          {
+          event.notificationDate && currentDate.getTime() >= new Date(event.notificationDate)?.getTime() && <Image className={classes.notificationBell} src={NotificationBell} alt="notification-bell" />
+        }
         </span>
       ),
     },
@@ -142,6 +160,9 @@ const Calendar = () => {
         }}
       >
         <em>{event.title}</em>
+        {
+          event.notificationDate && currentDate.getTime() >= new Date(event.notificationDate)?.getTime() && <Image className={classes.notificationBell} src={NotificationBell} alt="notification-bell" />
+        }
       </span>
     ),
   };
