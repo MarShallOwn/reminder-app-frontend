@@ -1,6 +1,7 @@
 import { Poppins } from "next/font/google";
 import { getLocalePartsFrom, locales } from "@/middleware";
-import Navbar from "./components/Navbar/Navbar";
+
+import Navbar from "./components/Navbar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./globals.css";
 
@@ -9,12 +10,6 @@ const poppins = Poppins({
   subsets: ["latin"],
 });
 
-/*
-const NotoSansArabic = Noto_Sans_Arabic({
-  weight: ['400', '700'],
-  subsets: ["arabic"]
-})
-*/
 
 type RootLayoutProps = {
   children: React.ReactNode;
@@ -30,6 +25,7 @@ export async function generateStaticParams() {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  
   return (
     <html dir="ltr">
       <body data-theme="light-theme" className={poppins.className}>

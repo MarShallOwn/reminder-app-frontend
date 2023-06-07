@@ -30,6 +30,7 @@ import { CalendarEvent, CalendarEventWithId } from "@/app/types";
 import NotificationBell from "../../assets/images/animated-notification.svg";
 import notificationBellAudio from "../../assets/sounds/notification-bell.wav";
 import Image from "next/image";
+import EventsNotifierModal from "../EventsNotifierModal";
 
 //moment.locale("ar-SA")
 
@@ -57,6 +58,7 @@ const Calendar = () => {
     type: string | null;
   }>({ open: false, type: null });
   const events = useSelector((state: RootState) => state.eventsReducer);
+  const eventsNotification = useSelector((state: RootState) => state.eventsNotificationReducer)
   const dispatch = useDispatch<AppDispatch>();
 
   const currentDate = new Date()
@@ -199,6 +201,12 @@ const Calendar = () => {
               />
             )}
           </CalendarModal>
+        </>
+      </Modal>
+
+      <Modal open={eventsNotification.notifyEvent}>
+        <>
+        <EventsNotifierModal events={events} />
         </>
       </Modal>
 

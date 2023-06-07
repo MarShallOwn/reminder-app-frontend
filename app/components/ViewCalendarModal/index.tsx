@@ -47,9 +47,9 @@ const ViewCalendarModal = ({ event, handleModalDisplay }: ViewCalendarProps) => 
       });
   };
 
-  const startDate = useMemo(() => moment.utc(event?.end).local().format('YYYY-MM-DD HH:mm:ss A'), [event?.end])
-  const endDate = useMemo(() => moment(event?.start).local().format('YYYY-MM-DD HH:mm:ss A'), [event?.start])
-  const notificationDate = useMemo(() => moment(event?.notificationDate).local().format('YYYY-MM-DD HH:mm:ss A'), [event?.notificationDate])
+  const startDate = useMemo(() => moment.utc(event?.end).local().format('DD-MM-YYYY'), [event?.end])
+  const endDate = useMemo(() => moment(event?.start).local().format('DD-MM-YYYY'), [event?.start])
+  const notificationDate = useMemo(() => moment(event?.notificationDate).local().format('DD-MM-YYYY'), [event?.notificationDate])
 
   return (
     <div className={classes.container}>

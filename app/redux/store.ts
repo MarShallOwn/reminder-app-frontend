@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice"
 import eventsReducer from "./slices/eventsSlice"
+import eventsNotificationReducer from "./slices/eventsNotificationSlice"
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 // configureStore is the new replacement for createStore which contains thunk
@@ -10,7 +11,8 @@ export const store = configureStore({
      */
     reducer: {
         authReducer,
-        eventsReducer
+        eventsReducer,
+        eventsNotificationReducer
     }
 })
 

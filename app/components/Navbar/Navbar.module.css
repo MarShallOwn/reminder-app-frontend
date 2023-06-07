@@ -6,12 +6,14 @@
 }
 
 .logo {
-    text-decoration: none;
+    text-decoration: none !important;
     color: var(--onsurface-color);
 }
 
 .link {
-    text-decoration: none;
+    text-decoration: none !important;
+    color: inherit !important;
+    text-decoration: inherit !important;
 }
 
 .container ul {
