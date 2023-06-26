@@ -8,6 +8,8 @@ import moment from 'moment';
 import Tooltip from '@mui/material/Tooltip';
 import expandMoreIcon from "../../assets/images/expand-more.svg"
 import expandLessIcon from "../../assets/images/expand-less.svg"
+import { useDispatch } from 'react-redux';
+import { eventsNotificationActions } from '@/app/redux/slices/eventsNotificationSlice';
 
 type EventsNotifierModalProps = {
     events: CalendarEventWithId[]
@@ -15,10 +17,16 @@ type EventsNotifierModalProps = {
 
 const EventsNotifierModal = ({ events }: EventsNotifierModalProps) => {
 
+    const dispatch = useDispatch()
+
     const [selectedEvent, SetSelectedEvent] = useState<string | null>(null)
 
     const handleSelectedEvent = (eventId: string) => () => {
         SetSelectedEvent(prevState => prevState === eventId ? null : eventId)
+    }
+
+    const handleClose = () => {
+        dispatch(eventsNotificationActions.closeNotification())
     }
 
     return (
@@ -52,6 +60,7 @@ const EventsNotifierModal = ({ events }: EventsNotifierModalProps) => {
                         </div>
                     </div>)
                 }
+                <button onClick={handleClose}>Close</button>
             </div>
         </div>
     )

@@ -22,10 +22,11 @@ const CalendarForm = ({
   handleAddEvent,
 }: CalendarFormProps) => {
 
-  const endDate = useMemo(() => moment(newEvent.end).format("DD-MM-YYYY"), [newEvent.end])
-  const minDate = useMemo(() => moment(newEvent.start).format("DD-MM-YYYY"), [newEvent.start])
-  const notificationDate = useMemo(() => moment(newEvent.notificationDate).format("DD-MM-YYYY"), [newEvent.notificationDate])
-  const currentDate = useMemo(() => moment().format("DD-MM-YYYY"), [])
+  console.log(moment().format("YYYY-MM-DDTHH:mm"))
+  const endDate = useMemo(() => moment(newEvent.end).format("YYYY-MM-DDTHH:mm"), [newEvent.end])
+  const minDate = useMemo(() => moment(newEvent.start).format("YYYY-MM-DDTHH:mm"), [newEvent.start])
+  const notificationDate = useMemo(() => moment(newEvent.notificationDate).format("YYYY-MM-DDTHH:mm"), [newEvent.notificationDate])
+  const currentDate = useMemo(() => moment().format("YYYY-MM-DDTHH:mm"), [])
 
   return (
     <div className={classes.container}>
